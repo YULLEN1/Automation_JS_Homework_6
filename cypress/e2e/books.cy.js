@@ -51,7 +51,7 @@ beforeEach(() => {
 
 describe("Favorite books testing", () => {
   it('Add book to favorite through "add new"', () => {
-    cy.createNeweBook(bookData);
+    cy.createNewBook(bookData);
     cy.visit("/favorites");
     cy.get(".card-title").should("contain", bookData.title);
   });
