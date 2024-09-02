@@ -1,6 +1,6 @@
 describe("login process", () => {
   beforeEach(() => {
-    cy.visit("localhost:3000");
+    cy.visit("/");
   });
 
   it("logins successfully with correct credentials", () => {
@@ -27,46 +27,44 @@ describe("login process", () => {
       .then((el) => el[0].validationMessage)
       .should("contain", "Заполните это поле.");
   });
-
-  it("shows logOut", () => {
-    cy.login("test@test.com", "test");
-    cy.contains("Добро пожаловать test@test.com").should("be.visible");
-    cy.contains("Log out").click();
-    cy.contains("Log in").should("be.visible");
-  });
 });
 
 import { faker } from "@faker-js/faker";
 let bookData;
 
 beforeEach(() => {
-  cy.visit("localhost:3000");
+  cy.visit("/");
   cy.login("test@test.com", "test");
   bookData = {
     title: faker.company.catchPhraseAdjective(),
-    description: faker.company.catchPhrase(),
     author: faker.name.fullName(),
   };
 });
 
 describe("Favorite books testing", () => {
-  it('Add book to favorite through "add new"', () => {
-    cy.createNewBook(bookData);
-    cy.visit("/favorites");
+  it('Create book"', () => {
+    cy.createNewBook(bookData.title, bookData.author);
     cy.get(".card-title").should("contain", bookData.title);
   });
 
-  it('Add book to favorite through "Book page"', () => {
-    cy.addBooktoFavorite(bookData);
-    cy.contains(bookData.title)
-      .should("be.visible")
-      .within(() => cy.get(".card-footer > .btn").click({ force: true }));
+  it('Add book to favorite through creating book', () => {
+    cy.addBookToFavorite(bookData.title, bookData.author);
+    cy.contains(bookData.title).should("be.visible")
     cy.visit("/favorites");
     cy.contains(bookData.title).should("be.visible");
   });
 
+   it("Add book to favorite through pressing a button", () => {
+     cy.createNewBook(bookData.title, bookData.author);
+     cy.contains(bookData.title)
+       .should("be.visible")
+       .within(() => cy.contains("Add to favorite").click({ force: true }));
+     cy.visit("/favorites");
+     cy.contains(bookData.title).should("be.visible");
+   });
+
   it("Delete book from favorite", () => {
-    cy.createNewBook(bookData);
+    cy.addBookToFavorite(bookData.title, bookData.author);
     cy.visit("/favorites");
     cy.contains(bookData.title)
       .should("be.visible")

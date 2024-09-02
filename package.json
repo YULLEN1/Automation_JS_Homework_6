@@ -3,10 +3,10 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "ChromeHeadless": "npx cypress run --browser chrome --headless",
-    "ChromeMobile": "npx cypress run --browser chrome --headed --config-file cypress.env.json",
-    "ElectronHeadless": "npx cypress run --browser electron --headless",
-    "ElectronMobile": "npx cypress run --browser electron --headed --config-file cypress.env.json"
+    "web:headed": "cypress run -b chrome --headed -C cypress.config.js",
+    "web:headless": "cypress run -b chrome --headless -C cypress.config.js",
+    "phone:headed": "cypress run -b chrome --headed -C cypress2.config.js",
+    "phone:headless": "cypress run -b chrome --headless -C cypress2.config.js"
   },
   "author": "Yulia Lener",
   "license": "ISC",

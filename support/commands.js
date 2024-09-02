@@ -38,7 +38,7 @@ Cypress.Commands.add("createNewBook", (title, author) => {
   cy.contains("Submit").click();
 });
 
-Cypress.Commands.add("addBookToFavorite", (title, authors) => {
+Cypress.Commands.add("addBookToFavorite", (title, author) => {
   cy.contains("Add new").click();
   cy.get("#title").type(title);
   cy.get("#authors").type(authors);
